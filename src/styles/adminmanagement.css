@@ -1,0 +1,53 @@
+.dashboard-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Main wrapper shifts depending on sidebar */
+.main-wrapper {
+  flex: 1;
+  transition: margin-left 0.3s ease;
+  
+}
+
+.main-wrapper.shifted {
+  margin-left: 250px; /* when sidebar open */
+}
+
+.main-wrapper.collapsed {
+  margin-left: 70px; /* when sidebar collapsed */
+}
+
+/* Content area */
+.main-content {
+  padding: 20px;
+}
+
+/* On mobile, sidebar overlays, so content always full width */
+@media (max-width: 767px) {
+  .main-wrapper {
+    margin-left: 0 !important;
+  }
+}
+
+
+
+
+/* On large screens, shift content when sidebar is open */
+@media (min-width: 768px) {
+  .main.shifted {
+    margin-left: 250px; /* same as sidebar width */
+  }
+}
+
+/* On small screens, content stays full width (no shifting) */
+@media (max-width: 767px) {
+  .main {
+    margin-left: 0;
+  }
+}
+
+/* Example page-specific content */
+.page-content {
+  margin-top: 20px;
+}
