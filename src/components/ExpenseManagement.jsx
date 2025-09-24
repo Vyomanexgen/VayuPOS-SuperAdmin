@@ -1,26 +1,13 @@
-import React, { useState } from "react";
-import Sidebar from "./common/Sidebar";
-import Navbar from "./common/Navbar";
-import "../styles/adminmanagement.css"; // consider renaming to layout.css
+import React from "react";
 
 const ExpenseManagement = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
-
   return (
     <div className="dashboard-layout">
-      {/* Sidebar */}
-      <Sidebar sidebarOpen={sidebarOpen} />
-
-      {/* Main Wrapper */}
-      <div className={`main-wrapper ${sidebarOpen ? "shifted" : "collapsed"}`}>
-        <Navbar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-
-        {/* Page Content */}
-        <main className="page-content">
-          <h1>Expense Management</h1>
-          <p>xxx</p>
-        </main>
-      </div>
+      {/* Page Content */}
+      <main className="page-content p-4">
+        <h1 className="text-2xl font-bold mb-4">Expense Management</h1>
+        <p>Manage and track all expenses here.</p>
+      </main>
     </div>
   );
 };

@@ -1,512 +1,178 @@
-import React, { useState } from "react";
-import Sidebar from "./common/Sidebar";
-import Navbar from "./common/Navbar";
-import "../styles/adminmanagement.css";
-import { Calendar, Send, User, ScanFace, Users, Clock, MessageSquare, Gift } from "lucide-react";
-import "../styles/dashboard.css"
+// src/components/Dashboard.jsx
+import React from "react";
+import {
+  Calendar,
+  Send,
+  User,
+  ScanFace,
+  Users,
+  Clock,
+  MessageSquare,
+  Gift,
+} from "lucide-react";
 
 const Dashboard = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
-
   // Stats Data
   const stats = [
     { title: "Total Users", value: "3,500", change: "+12% from last month" },
     { title: "Revenue", value: "$43,500", change: "+25% from last month" },
-    { title: "Orders", value: "1500", change: "+10% from last month" },
+    { title: "Orders", value: "1,500", change: "+10% from last month" },
     { title: "Growth", value: "15.5%", change: "+6% from last month" },
   ];
 
-  // Recent Sales
-  const recentSales = [
-    { id: "#1234", amount: "$15.09", date: "July 18, 2025" },
-    { id: "#1235", amount: "$42.00", date: "July 18, 2025" },
-    { id: "#1236", amount: "$30.50", date: "July 18, 2025" },
-  ];
-
-  // Low Stock Alert
-  const lowStock = [
-    { id: "#5678", name: "Product A", qty: "5 left" },
-    { id: "#5679", name: "Product B", qty: "2 left" },
-  ];
-
-  // Business Tools
-  const tools = [
-    { name: "Staff Payroll", icon: "👨‍💼" },
-    { name: "User Management", icon: "👥" },
-    { name: "Reminder System", icon: "⏰" },
-    { name: "SMS Marketing", icon: "💬" },
-    { name: "Rewards/Loyalty", icon: "🎁" },
-  ];
-
   return (
-    <div className="dashboard-layout">
-      <Sidebar sidebarOpen={sidebarOpen} />
+    <div className="p-6 space-y-6">
+      {/* Header */}
+      <div>
+        <h1 className="text-2xl font-bold">Dashboard</h1>
+        <p className="flex items-center justify-between text-gray-600 mt-1">
+          Welcome back! Here's what's happening today.
+          <span className="flex items-center gap-2 text-sm">
+            <Calendar size={16} /> Tuesday, August 12, 2025
+          </span>
+        </p>
+      </div>
 
-      <div className={`main-wrapper ${sidebarOpen ? "shifted" : "collapsed"}`}>
-        <Navbar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-
-        <main className="page-content">
-          <h1>Dashboard</h1>
-          <p style={{ display: "flex", justifyContent: "space-between" }}>
-            Welcome back! Here's what's happening today.{" "}
-            <span>
-              <Calendar size={18} /> Tuesday, August 12, 2025
-            </span>
-          </p>
-
-          {/* Stats Cards */}
-          <div className="cards">
-            {stats.map((item, index) => (
-              <div
-                className="card"
-                key={index}
-                style={{ border: "1px solid #8b8686ff" }}
-              >
-                <p style={{ color: "#000" }}>{item.title}</p>
-                <h2 style={{ color: "#000" }}>{item.value}</h2>
-                {/* <small style={{fontSize:"16px", padding:"8px 16px", display:"inline-block", textAlign:"center", borderRadius:"20px", backgroundColor:"#abf1b7ff"}}>{item.change}</small> */}
-                <small
-                  style={{
-                    fontSize: "16px",
-                    borderRadius: "20px",
-                    backgroundColor: "#abf1b7ff",
-                    padding: "8px",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center", // vertical center
-                    alignItems: "center", // horizontal center
-                    lineHeight: "1.2", // reduce gap between lines
-                    minHeight: "32px", // optional: keeps pill shape uniform
-                    minWidth: "90px", // optional: makes all labels same width
-                    textAlign: "center",
-                  }}
-                >
-                  {item.change
-                    .split(" ")
-                    .map((word, i) =>
-                      (i + 1) % 2 === 0 ? word + "\n" : word + " "
-                    )
-                    .join("")
-                    .split("\n")
-                    .map((line, idx) => (
-                      <React.Fragment key={idx}>
-                        {line}
-                        <br />
-                      </React.Fragment>
-                    ))}
-                </small>
-              </div>
-            ))}
-          </div>
-
-          <div className="cards mid-row">
-            {/* Sales Overview */}
-
+      {/* Stats */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {stats.map((item, index) => (
           <div
-            className="card sales-overview"
-            style={{
-              border: "1px solid #8b8686ff",
-              padding: "16px",
-            }}
+            key={index}
+            className="bg-white border rounded-xl shadow-sm p-4 flex flex-col justify-between"
           >
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <h3>Sales Overview</h3>
-              <div className="tabs">
+            <p className="text-gray-600 text-sm">{item.title}</p>
+            <h2 className="text-xl font-semibold text-gray-900">
+              {item.value}
+            </h2>
+            <span className="text-xs mt-2 bg-green-100 text-green-800 px-2 py-1 rounded-full text-center">
+              {item.change}
+            </span>
+          </div>
+        ))}
+      </div>
+
+      {/* Middle Row: Sales Overview + AI Assistant */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Sales Overview */}
+        <div className="lg:col-span-2 bg-white border rounded-xl shadow-sm p-4">
+          <div className="flex justify-between items-center">
+            <h3 className="text-lg font-semibold">Sales Overview</h3>
+            <div className="space-x-2">
+              {["Day", "Week", "Month", "Year"].map((label, i) => (
                 <button
-                  style={{
-                    borderRadius: "10px",
-                    border: "none",
-                    padding: "5px 8px",
-                    fontSize: "15px",
-                    margin: "5px",
-                  }}
+                  key={i}
+                  className={`px-3 py-1 rounded-lg text-sm ${
+                    label === "Year"
+                      ? "bg-black text-white"
+                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  }`}
                 >
-                  Day
+                  {label}
                 </button>
-                <button
-                  style={{
-                    borderRadius: "10px",
-                    border: "none",
-                    padding: "5px 8px",
-                    fontSize: "15px",
-                    margin: "5px",
-                  }}
-                >
-                  Week
-                </button>
-                <button
-                  style={{
-                    borderRadius: "10px",
-                    border: "none",
-                    padding: "5px 8px",
-                    fontSize: "15px",
-                    margin: "5px",
-                  }}
-                >
-                  Month
-                </button>
-                <button
-                  style={{
-                    background: "#000",
-                    color: "#fff",
-                    borderRadius: "10px",
-                    border: "none",
-                    padding: "5px 8px",
-                    fontSize: "15px",
-                    margin: "5px",
-                  }}
-                >
-                  Year
-                </button>
+              ))}
+            </div>
+          </div>
+          <div className="h-64 border border-blue-500 rounded-lg mt-4 flex items-center justify-center text-gray-400">
+            Chart Placeholder
+          </div>
+        </div>
+
+        {/* AI Assistant */}
+        <div className="bg-white border rounded-xl shadow-sm p-4 flex flex-col">
+          <h3 className="text-lg font-semibold mb-3">AI Assistant</h3>
+          <div className="bg-gray-200 rounded-xl p-4 flex-1 flex flex-col justify-between">
+            <div className="flex items-start gap-3">
+              <div className="mt-1 text-blue-600">
+                <ScanFace size={28} />
+              </div>
+              <div className="bg-white rounded-xl px-3 py-2 text-sm text-gray-700">
+                Good Morning! Your sales are up 12% compared to last month.
+                Would you like to see the detailed report?
               </div>
             </div>
-
-            {/* Placeholder for chart */}
-            <div className="chart-placeholder"
-              style={{
-                height: "250px",
-                border: "1px solid #007bff",
-                borderRadius: "12px",
-                marginTop: "16px",
-              }}
-            ></div>
+            <div className="flex items-center gap-3 mt-4 ml-10">
+              <button className="bg-black text-white text-sm px-3 py-1 rounded-lg">
+                Yes, show me the report
+              </button>
+              <User size={20} className="text-gray-700" />
+            </div>
           </div>
-
-          {/* AI Assistant */}
-            <div className="card ai-assistant"
-  style={{
-    border: "1px solid #8b8686ff",
-    display: "flex",
-    flexDirection: "column",
-    gridRow: "span 1",
-    height: "89%",        // ensures it matches row height
-  }}
->
-  <h3 style={{ margin: "8px 0", fontSize:"30px" }}>AI Assistant</h3> {/* minimal top space */}
-
-  <div className="chat" style={{ marginBottom:"50px", padding:"20px", backgroundColor:"#d3d2d2ff", borderRadius:"20px" }}>
-    <div className="message robot" style={{display:"flex"}}>
-      <div className="avatar" style={{marginTop:"30px", marginLeft:"10px"}}><ScanFace size={30}/></div>
-      <div className="bubble" style={{backgroundColor:"#fff", borderRadius:"20px", marginLeft:"10px", padding:"10px"}}>
-        Good Morning! Your sales are up 12% compared to last month.
-        Would you like to see the detailed report?
-      </div>
-    </div>
-
-    <div className="action-row" style={{display:"flex", gap:"5px", marginLeft:'70px', marginTop:"20px"}}>
-      <button className="btn-pill" style={{borderRadius:"12px", border:"none", backgroundColor:"#000", color:"#fff", padding:"8px"}}>Yes, show me the report</button>
-      <div className="user-avatar"><User size={22} /></div>
-    </div>
-  </div>
-
-  <div className="chat-input" style={{ width: "100%" }}>
-  <div
-    style={{
-      display: "flex",
-      alignItems: "center",
-      border: "1px solid #ccc",
-      overflow: "hidden",
-      width: "100%",
-    }}
-  >
-    <input
-      type="text"
-      placeholder="Ask anything......."
-      style={{
-        flex: 1,
-        border: "none",
-        outline: "none",
-        padding: "8px 12px",
-        fontSize: "14px",
-      }}
-    />
-    <button
-      className="send-btn"
-      aria-label="send"
-      style={{
-        border: "none",
-        background: "transparent",
-        padding: "8px 12px",
-        cursor: "pointer",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <Send size={16} style={{backgroundColor:"#000", color:"#fff", padding:"2px"}} />
-    </button>
-  </div>
-</div>
-
-</div>
-
+          <div className="mt-4 flex border rounded-lg overflow-hidden">
+            <input
+              type="text"
+              placeholder="Ask anything..."
+              className="flex-1 px-3 py-2 text-sm outline-none"
+            />
+            <button className="px-3 bg-black text-white flex items-center justify-center">
+              <Send size={16} />
+            </button>
           </div>
-          
-<div
-  className="cards bottom-row"
-  style={{
-    display: "grid",
-    gridTemplateColumns: "1fr 1fr 1fr",
-    gap: "16px",
-    marginTop: "16px",
-  }}
->
-  {/* Recent Sales */}
-  <div
-    className="card"
-    style={{
-      border: "1px solid #8b8686ff",
-      borderRadius: "12px",
-      padding:"12px"
-    }}
-  >
-    <h3 style={{ marginBottom: "20px", borderBottom: "3px solid #ccc", fontSize:'30px' }}>Recent Sales</h3>
-    <div
-      className="sale-item"
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        borderBottom: "1px solid #ccc",
-        padding: "6px 0",
-        marginTop:"50px"
-      }}
-    >
-      <div>
-        <div>Order #1234</div>
-        <small>July 18, 2025</small>
+        </div>
       </div>
-      <div>$15.09</div>
-    </div>
 
-     <div
-      className="sale-item"
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        borderBottom: "1px solid #ccc",
-        padding: "6px 0",
-      }}
-    >
-      <div>
-        <div>Order #1234</div>
-        <small>July 18, 2025</small>
-      </div>
-      <div>$15.09</div>
-    </div>
-     <div
-      className="sale-item"
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        borderBottom: "1px solid #ccc",
-        padding: "6px 0",
-      }}
-    >
-      <div>
-        <div>Order #1234</div>
-        <small>July 18, 2025</small>
-      </div>
-      <div>$15.09</div>
-    </div>
-    <div
-      className="sale-item"
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        borderBottom: "1px solid #ccc",
-        padding: "6px 0",
-      }}
-    >
-      <div>
-        <div>Order #1234</div>
-        <small>July 18, 2025</small>
-      </div>
-      <div>$15.09</div>
-    </div>
-    
-  </div>
+      {/* Bottom Row */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Recent Sales */}
+        <div className="bg-white border rounded-xl shadow-sm p-4">
+          <h3 className="text-lg font-semibold border-b pb-2 mb-3">
+            Recent Sales
+          </h3>
+          {[1, 2, 3, 4].map((sale) => (
+            <div
+              key={sale}
+              className="flex justify-between border-b py-2 text-sm text-gray-600"
+            >
+              <div>
+                <p>Order #1234</p>
+                <small>July 18, 2025</small>
+              </div>
+              <span>$15.09</span>
+            </div>
+          ))}
+        </div>
 
-  {/* Low Stock Alert */}
-  <div
-    className="card"
-    style={{
-      border: "1px solid #8b8686ff",
-      borderRadius: "12px",
-      padding:"12px"
-    }}
-  >
-    <h3 style={{ marginBottom: "20px", borderBottom: "3px solid #ccc", fontSize:'30px' }}>Low Stock Alert</h3>
-    <div
-      className="sale-item"
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        borderBottom: "1px solid #ccc",
-        padding: "6px 0",
-        marginTop:"50px"
-      }}
-    >
-      <div>
-        <div>Order #1234</div>
-        <small>July 18, 2025</small>
-      </div>
-      <div>$15.09</div>
-    </div>
+        {/* Low Stock Alert */}
+        <div className="bg-white border rounded-xl shadow-sm p-4">
+          <h3 className="text-lg font-semibold border-b pb-2 mb-3">
+            Low Stock Alert
+          </h3>
+          {[1, 2, 3, 4].map((stock) => (
+            <div
+              key={stock}
+              className="flex justify-between border-b py-2 text-sm text-gray-600"
+            >
+              <div>
+                <p>Product A</p>
+                <small>Only {stock} left</small>
+              </div>
+              <span>⚠️</span>
+            </div>
+          ))}
+        </div>
 
-     <div
-      className="sale-item"
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        borderBottom: "1px solid #ccc",
-        padding: "6px 0",
-      }}
-    >
-      <div>
-        <div>Order #1234</div>
-        <small>July 18, 2025</small>
-      </div>
-      <div>$15.09</div>
-    </div>
-     <div
-      className="sale-item"
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        borderBottom: "1px solid #ccc",
-        padding: "6px 0",
-      }}
-    >
-      <div>
-        <div>Order #1234</div>
-        <small>July 18, 2025</small>
-      </div>
-      <div>$15.09</div>
-    </div>
-    <div
-      className="sale-item"
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        borderBottom: "1px solid #ccc",
-        padding: "6px 0",
-      }}
-    >
-      <div>
-        <div>Order #1234</div>
-        <small>July 18, 2025</small>
-      </div>
-      <div>$15.09</div>
-    </div>
-    
-  </div>
-
-  {/* Business Tools */}
-  <div
-    className="card"
-    style={{
-      border: "1px solid #8b8686ff",
-      borderRadius: "12px",
-      padding: "12px",
-    }}
-  >
-    <h3 style={{ marginBottom: "20px", borderBottom: "3px solid #ccc", fontSize:'30px' }}>Business Tools</h3>
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "1fr 1fr",
-        gap: "12px",
-      }}
-    >
-      <button
-        style={{
-          border: "1px solid #ccc",
-          borderRadius: "10px",
-          padding: "12px",
-          background: "#fff",
-          cursor: "pointer",
-          display: "flex",
-          flexDirection:"column",
-          alignItems: "center",
-          gap: "8px",
-        }}
-      >
-        <Users size={18} /> Staff Payroll
-      </button>
-
-      <button
-        style={{
-          border: "1px solid #ccc",
-          borderRadius: "10px",
-          padding: "12px",
-          background: "#fff",
-          cursor: "pointer",
-          display: "flex",
-          flexDirection:"column",
-          alignItems: "center",
-          gap: "8px",
-        }}
-      >
-        <User size={18} /> User Management
-      </button>
-
-      <button
-        style={{
-          border: "1px solid #ccc",
-          borderRadius: "10px",
-          padding: "12px",
-          background: "#fff",
-          cursor: "pointer",
-          display: "flex",
-          flexDirection:"column",
-          alignItems: "center",
-          gap: "8px",
-        }}
-      >
-        <Clock size={18} /> Reminder System
-      </button>
-
-      <button
-        style={{
-          border: "1px solid #ccc",
-          borderRadius: "10px",
-          padding: "12px",
-          background: "#fff",
-          cursor: "pointer",
-          display: "flex",
-          flexDirection:"column",
-          alignItems: "center",
-          gap: "8px",
-        }}
-      >
-        <MessageSquare size={18} /> SMS Marketing
-      </button>
-
-      <button
-        style={{
-          border: "1px solid #ccc",
-          borderRadius: "10px",
-          padding: "12px",
-          background: "#fff",
-          cursor: "pointer",
-          display: "flex",
-          flexDirection:"column",
-          alignItems: "center",
-          gap: "8px",
-          gridColumn: "span 2",
-          margin:"0 80px"
-        }}
-      >
-        <Gift size={18} /> Rewards / Loyalty System
-      </button>
-    </div>
-  </div>
-</div>
-         
-
-         
-          
-        </main>
+        {/* Business Tools */}
+        <div className="bg-white border rounded-xl shadow-sm p-4">
+          <h3 className="text-lg font-semibold border-b pb-2 mb-3">
+            Business Tools
+          </h3>
+          <div className="grid grid-cols-2 gap-4">
+            <button className="border rounded-lg p-3 flex flex-col items-center text-sm hover:bg-gray-50">
+              <Users size={20} /> Staff Payroll
+            </button>
+            <button className="border rounded-lg p-3 flex flex-col items-center text-sm hover:bg-gray-50">
+              <User size={20} /> User Management
+            </button>
+            <button className="border rounded-lg p-3 flex flex-col items-center text-sm hover:bg-gray-50">
+              <Clock size={20} /> Reminder System
+            </button>
+            <button className="border rounded-lg p-3 flex flex-col items-center text-sm hover:bg-gray-50">
+              <MessageSquare size={20} /> SMS Marketing
+            </button>
+            <button className="border rounded-lg p-3 col-span-2 flex flex-col items-center text-sm hover:bg-gray-50">
+              <Gift size={20} /> Rewards / Loyalty
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

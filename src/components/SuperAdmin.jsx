@@ -1,22 +1,12 @@
-import React, { useState } from "react";
-import Sidebar from "./common/Sidebar";
-import Navbar from "./common/Navbar";
+import React from "react";
 
 const SuperAdmin = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
-
   return (
-    <div className="dashboard">
-      {/* Sidebar */}
-      <Sidebar sidebarOpen={sidebarOpen} />
-
-      {/* Main Content */}
-      <main className="main">
-        <Navbar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-
-        {/* Header */}
-        <h1>Super Admin</h1>
-        <p>xxx</p>
+    <div className="dashboard-layout">
+      {/* Page Content */}
+      <main className="page-content p-4">
+        <h1 className="text-2xl font-bold mb-4">Super Admin</h1>
+        <p>Manage system-wide settings and controls here.</p>
       </main>
     </div>
   );
