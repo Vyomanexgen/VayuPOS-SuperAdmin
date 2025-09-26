@@ -1,4 +1,3 @@
-// src/components/Sidebar.jsx
 import React, { useState, useEffect } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import {
@@ -22,7 +21,7 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
     setOpenMenu(openMenu === menu ? null : menu);
   };
 
-  // Auto-expand dropdown if current route is inside it
+  // Auto-expand dropdown if route matches
   useEffect(() => {
     if (location.pathname.startsWith("/staff&payroll")) {
       setOpenMenu("staff");
@@ -31,9 +30,11 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
     }
   }, [location.pathname]);
 
-  // ✅ Always close sidebar when a link is clicked
+  // ✅ Close sidebar only on mobile
   const handleLinkClick = () => {
-    toggleSidebar();
+    if (window.innerWidth < 1024) {
+      toggleSidebar();
+    }
   };
 
   const linkClass = ({ isActive }) =>
@@ -45,7 +46,7 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
 
   return (
     <>
-      {/* Overlay for mobile */}
+      {/* Mobile overlay */}
       {isOpen && (
         <div
           className="fixed inset-0 bg-black/40 z-30 lg:hidden"
@@ -56,14 +57,15 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
       {/* Sidebar */}
       <aside
         className={`fixed top-0 left-0 h-screen w-64 bg-blue-600 text-white flex flex-col z-40 transform transition-transform duration-300
-          ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
+          ${isOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0`}
       >
         {/* Header */}
         <div className="flex items-center justify-between px-4 py-4 border-b border-blue-500">
           <h1 className="text-lg font-bold">SuperAdmin</h1>
+          {/* Hide close button on desktop */}
           <button
             onClick={toggleSidebar}
-            className="text-white hover:text-gray-200"
+            className="text-white hover:text-gray-200 lg:hidden"
           >
             <X size={20} />
           </button>
@@ -77,7 +79,11 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
           <NavLink to="/admin" className={linkClass} onClick={handleLinkClick}>
             <Shield size={18} /> Admin Management
           </NavLink>
-          <NavLink to="/customers" className={linkClass} onClick={handleLinkClick}>
+          <NavLink
+            to="/customers"
+            className={linkClass}
+            onClick={handleLinkClick}
+          >
             <Users size={18} /> Customer Management
           </NavLink>
 
